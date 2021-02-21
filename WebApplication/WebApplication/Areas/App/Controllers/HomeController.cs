@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication.Properties;
 
 namespace WebApplication.Areas.App.Controllers
 {
@@ -10,6 +11,7 @@ namespace WebApplication.Areas.App.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            ViewBag.Title = Resources.Title;
             return View();
         }
     }
