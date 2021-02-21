@@ -1,24 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebApplication
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IHostEnvironment env)
         {
+            const string appSettings = "appsettings";
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile($"{appSettings}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"{appSettings}.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            ConfigureAppServices(services);
+        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -26,12 +33,51 @@ namespace WebApplication
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseResponseCompression();
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = content =>
+                {
+                    if (!content.File.Name.EndsWith(".js.gz")) return;
+                    content.Context.Response.Headers["Content-Type"] = "text/javascript";
+                    content.Context.Response.Headers["Content-Encoding"] = "gzip";
+                }
+            });
+
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+                endpoints.MapAreaControllerRoute(
+                    name: "default",
+                    areaName: "app",
+                    pattern: "{area:exists}/{controller}/{action=Index}/{id?}");
+                endpoints.MapFallbackToAreaController("Index", "Home", "App");
+                endpoints.MapDefaultControllerRoute().RequireAuthorization();
             });
         }
+
+        private static void ConfigureAppServices(IServiceCollection services)
+        {
+            services.AddControllersWithViews().AddNewtonsoftJson((options) =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            }).AddControllersAsServices();
+            services.AddAuthorization();
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.MimeTypes = new[] { "application/javascript" };
+            });
+        }
+
+        internal IConfigurationRoot Configuration { get; }
     }
 }
