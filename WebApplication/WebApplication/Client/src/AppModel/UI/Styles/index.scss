@@ -2,3 +2,43 @@
 
 @import "constants";
 @import "~bootstrap/scss/bootstrap";
+
+@font-face {
+  font-family: 'lobster';
+  src: url("./fonts/lobster-regular.ttf") format("truetype");
+}
+
+body{
+  background-color: $body-bg;
+}
+
+.navbar-brand{
+  font-family: 'lobster', sans-serif;
+  font-size: 1rem;
+  @include media-breakpoint-up(sm){
+    font-size: 1.5rem;
+  }
+  @include media-breakpoint-up(md) {
+    font-size: 2rem;
+  }
+  @include media-breakpoint-up(lg) {
+    font-size: 2.5rem;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 3rem;
+  }
+
+  img.logo {
+    width: 50px;
+    height: 50px;
+    @include media-breakpoint-up(xl) {
+      width: 130px;
+      height: 130px;
+    }
+  }
+}
+
+.main-container
+{
+  padding-top: 20px;
+}
