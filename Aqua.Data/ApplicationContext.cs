@@ -9,6 +9,13 @@ namespace Aqua.Data
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Account>(Mapping.Account.Configure);
+            builder.Entity<Role>(Mapping.Role.Configure);
+        }
+        
         public DbSet<Role> Roles { get; set; }
         public DbSet<Account> Accounts { get; set; }
     }
