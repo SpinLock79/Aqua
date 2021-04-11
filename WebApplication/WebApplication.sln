@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{29B731EE-3DBF-42A3-9E61-D16C87BC058C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aqua.Data", "..\Aqua.Data\Aqua.Data.csproj", "{315C4A6F-159B-457E-BF2F-DC01221D3675}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{29B731EE-3DBF-42A3-9E61-D16C87BC058C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29B731EE-3DBF-42A3-9E61-D16C87BC058C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29B731EE-3DBF-42A3-9E61-D16C87BC058C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{315C4A6F-159B-457E-BF2F-DC01221D3675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315C4A6F-159B-457E-BF2F-DC01221D3675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315C4A6F-159B-457E-BF2F-DC01221D3675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315C4A6F-159B-457E-BF2F-DC01221D3675}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -12,7 +12,7 @@ body{
   background-color: $body-bg;
 }
 
-.navbar-brand{
+.navbar-brand{  
   font-family: 'lobster', sans-serif;
   font-size: 1rem;
   @include media-breakpoint-up(sm){

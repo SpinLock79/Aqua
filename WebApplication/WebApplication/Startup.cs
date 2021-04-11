@@ -1,5 +1,7 @@
+using Aqua.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +28,7 @@ namespace WebApplication
             ConfigureAppServices(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -62,8 +64,11 @@ namespace WebApplication
             });
         }
 
-        private static void ConfigureAppServices(IServiceCollection services)
+        private void ConfigureAppServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("PostgreSql")));
+            
             services.AddControllersWithViews().AddNewtonsoftJson((options) =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -78,6 +83,6 @@ namespace WebApplication
             });
         }
 
-        internal IConfigurationRoot Configuration { get; }
+        private IConfigurationRoot Configuration { get; }
     }
 }

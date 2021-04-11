@@ -61,7 +61,7 @@ const config: webpack.Configuration = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(woff|woff2|eot|ttf|svg)$/,
+                test: /\.(woff|woff2|eot|ttf|svg|png)$/,
                 use: [ {loader: 'url-loader'} ],
                 exclude: /node_modules/
             }
