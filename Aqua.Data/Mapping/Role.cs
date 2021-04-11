@@ -11,11 +11,9 @@ namespace Aqua.Data.Mapping
             
             builder.ToTable($"{Constants.Prefix}.Role")
                 .HasKey(x => x.Id.ToString());
-            builder.Property(x => x.Id)
-                .HasColumnName("Id");
+            builder.Property(x => x.Id);
             builder.Property(x => x.Name)
-                .HasMaxLength(50)
-                .HasColumnName("Name");
+                .HasMaxLength(50);
         }
     }
 }

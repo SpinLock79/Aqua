@@ -20,7 +20,6 @@ namespace Aqua.Data.Entities
         public int RoleId { get; }
         public string Name { get; }
         public byte[] Password { get; }
-        
         public virtual Role Role { get; }
     }
 }

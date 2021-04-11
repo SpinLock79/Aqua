@@ -11,16 +11,12 @@ namespace Aqua.Data.Mapping
             
             builder.ToTable($"{Constants.Prefix}.Account")
                 .HasKey(x => x.Id.ToString());
-            builder.Property(x => x.Id)
-                .HasColumnName("Id");
-            builder.Property(x => x.RoleId)
-                .HasColumnName("RoleId");
+            builder.Property(x => x.Id);
+            builder.Property(x => x.RoleId);
             builder.Property(x => x.Name)
-                .HasMaxLength(50)
-                .HasColumnName("Name");
+                .HasMaxLength(50);
             builder.Property(x => x.Password)
-                .HasMaxLength(50)
-                .HasColumnName("Password");
+                .HasMaxLength(50);
             
             builder.HasOne(x => x.Role)
                 .WithMany(x => x.Accounts)
